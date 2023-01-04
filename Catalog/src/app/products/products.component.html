@@ -1,0 +1,64 @@
+<div class="container mt-3">
+  <ng-template #errors  >
+   <div class="text-danger">{{errorMessage}}</div>
+  </ng-template>
+  <div class="card" *ngIf="products;else errors">
+    <div class="card-header">
+      Products List
+    </div>
+    <div class="card-body">
+
+      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProduct()">
+        <div class="input-group">
+          <label   for="search" class="input-group-text ">Search</label>
+          <input type="text"  class="form-control" id="search"  placeholder="Search"  formControlName="keyword">
+          <button  class="btn btn-outline-dark" >
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Promotion</th>
+
+        </tr> </thead>
+        <tbody>
+        <tr *ngFor="let product of products" >
+          <td>{{product.id}}</td>
+          <td>{{product.name}}</td>
+          <td>{{product.price}}</td>
+          <td>
+            <i *ngIf="product.promotion" class="text-danger   bi bi-heart-fill"></i>
+          </td>
+          <td>
+            <button  [ngClass]="product.promotion==true?'btn-danger':'btn-success'" (click)="handleChangePromo(product)" class="btn">
+              <span *ngIf="product.promotion==true">Promo OFF</span>
+              <span *ngIf="product.promotion==false">Promo ON</span>
+
+            </button>
+          </td>
+
+          <td>
+            <button class="btn btn-outline-danger" (click)="deleteProduct(product)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+      <ul class="nav nav-pills">
+        <li *ngFor="let item of [].constructor(totalPages);let i=index">
+         <a (click)="goToPage(i)" [ngClass]="currentPage==i?'btn-dark':'btn-outline-dark'" class="btn  m-2">{{i}}</a>
+        </li>
+      </ul>
+    </div>
+
+
+  </div>
+</div>
+
